@@ -1,0 +1,23 @@
+.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+  %h1.page-header New Order
+  .row.placeholders
+    .col-xs-6.col-sm-3.placeholder
+      %h4 Labeldfsdf
+      %span.text-muted Something elsedfsa
+    .col-xs-6.col-sm-3.placeholder
+      %h4 Labeldfsdf
+      %span.text-muted Something elsedfsa
+    .col-xs-6.col-sm-3.placeholder
+      %h4 Labeldfsdf
+      %span.text-muted Something elsedfsa
+
+
+    .container
+      = simple_form_for Order.new,  html: { class: 'form-signin' } do |f|
+        %h2.form-signin-heading Submit Your new order
+        -# = f.error_notification
+        -# = f.input :email, placeholder: ' email'
+        -# = f.input :password, placeholder: 'Password'
+        -# = f.button :submit, 'Sign In',  class: 'btn btn-lg btn-primary btn-block'
+        -#
+

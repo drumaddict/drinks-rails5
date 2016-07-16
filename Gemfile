@@ -27,10 +27,11 @@ gem 'jbuilder', '~> 2.5'
 gem 'haml'
 gem "haml-rails"
 gem 'bootstrap', '~> 4.0.0.alpha3'
+gem 'simple_form'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -51,7 +52,7 @@ group :development do
   gem 'pry-byebug'
   gem'pry-rescue'
   gem 'pry-stack_explorer'
-  gem 'awesome_print'
+  gem 'awesome_print', require: 'ap'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

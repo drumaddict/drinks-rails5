@@ -1,0 +1,23 @@
+.container
+  = simple_form_for User.new, url:login_path , as: 'user',  html: { class: 'form-signin' } do |f|
+    %h1 Drinks
+    %h2.form-signin-heading Please sign in
+    = f.error_notification
+    = f.input :email, placeholder: ' email'
+    = f.input :password, placeholder: 'Password'
+    = f.button :submit, 'Sign In',  class: 'btn btn-lg btn-primary btn-block'
+
+
+-# .container
+-#   %form.form-signin
+-#     %h2.form-signin-heading Please sign in
+-#     %label.sr-only{:for => "inputEmail"} Email address
+-#     %input#inputEmail.form-control{:autofocus => "", :placeholder => "Email address", :required => "", :type => "email"}
+-#       %label.sr-only{:for => "inputPassword"} Password
+-#       %input#inputPassword.form-control{:placeholder => "Password", :required => "", :type => "password"}
+-#         .checkbox
+-#           %label
+-#             %input{:type => "checkbox", :value => "remember-me"}
+-#               Remember me
+-#         %button.btn.btn-lg.btn-primary.btn-block{:type => "submit"} Sign in
+/ /container

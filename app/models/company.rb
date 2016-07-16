@@ -7,5 +7,5 @@ class Company < ApplicationRecord
 
 
   has_many :users, dependent: :destroy
-  validates :title, presence: :true
+  validates :name, presence: :true
 end
