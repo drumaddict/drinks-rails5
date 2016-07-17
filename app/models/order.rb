@@ -8,6 +8,9 @@ class Order < ApplicationRecord
   has_many :line_items, dependent: :destroy
 
   # accepts_nested_attributes_for :playlists
-
+  #
+  accepts_nested_attributes_for :line_items, :reject_if => :all_blank, :allow_destroy => true
   # validates :email, presence: :true
 end
+
+

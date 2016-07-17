@@ -1,0 +1,18 @@
+= simple_form_for @drink_category,  html: { class: 'form-signin' } do |f|
+  - label = @drink_category.new_record? ? 'New Drink Category' : 'Edit Drink Category'
+  - btn_label = @drink_category.new_record? ? 'Create' : 'Update'
+
+  %h1=label
+  %h2.form-signin-heading
+  = f.error_notification
+  = f.input :name, placeholder: 'Name'
+  = f.input :has_sugar, label: 'This drink comes with sugar?'
+  = f.input :has_milk, label: 'This drink comes with milk?'
+  = f.button :submit, btn_label,  class: 'btn btn-lg btn-primary btn-block'
+
+
+
+
+
+
+

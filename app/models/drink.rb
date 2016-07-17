@@ -6,6 +6,7 @@ class Drink < ApplicationRecord
   # end
 
   belongs_to  :drink_category
+  has_many  :line_items
 
   # accepts_nested_attributes_for :playlists
   #

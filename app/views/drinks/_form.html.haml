@@ -5,7 +5,7 @@
   %h1=label
   %h2.form-signin-heading
   = f.error_notification
-  = f.association :drink_category ,input_html: { class: 'large' }
-  = f.input :name, placeholder: ' email'
+  = f.association :drink_category ,input_html: { class: 'large' }, label: 'Drink Category'
+  = f.input :name, placeholder: 'Name'
   = f.button :submit, btn_label,  class: 'btn btn-lg btn-primary btn-block'
 

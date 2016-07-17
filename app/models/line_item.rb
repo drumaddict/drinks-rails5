@@ -6,8 +6,9 @@ class LineItem < ApplicationRecord
   # end
 
   belongs_to :order
+  belongs_to :drink
 
-  # accepts_nested_attributes_for :playlists
+  accepts_nested_attributes_for :drink
 
   validates :email, presence: :true
 end

@@ -1,0 +1,26 @@
+.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+  %h1.page-header Orders
+  =link_to 'Create New Order', new_order_path, class: 'btn btn-primary btn-lg'
+  .table-responsive
+    %table.table.table-striped
+      %thead
+        %tr
+          %th #
+          %th Summary
+          %th User name
+          %th Status
+          %th Favorite
+          %th Reoccuring
+      %tbody
+        -@orders.each do |order|
+          %tr
+            %td=order.id
+            %td= 'summary'
+            %td= order.user.name
+            %td= order.status
+            %td= order.favorite
+            %td= order.reoccuring
+            %td=link_to 'Edit', edit_order_path(order), class: 'btn btn-primary btn-sm'
+            %td
+              =button_to "Delete", { action: "destroy", id: order.id },  class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: "Are you sure?" }
+              -# =link_to 'Destroy','destroy_drink_path', class: 'btn btn-danger btn-sml'

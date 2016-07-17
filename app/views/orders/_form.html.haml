@@ -1,0 +1,21 @@
+= simple_form_for @order,  html: { class: 'form-inline' } do |f|
+  - label = @order.new_record? ? 'New order' : 'Edit order'
+  - btn_label = @order.new_record? ? 'Create' : 'Update'
+  .row
+    %h1=label
+    %h2.form-signin-heading
+  = f.error_notification
+  -# = f.association :order_category ,input_html: { class: 'large' }, label: 'order Category'
+  -# .form-group.row
+  = f.input :status, placeholder: 'Status'
+  = f.input :favorite, placeholder: 'Favorite'
+  = f.input :reoccuring, placeholder: 'Reoccuring'
+  %h3 Drinks
+  #drinks
+    = f.simple_fields_for :line_items do |line_items_form|
+      = render 'line_item_fields', :f => line_items_form
+    .links
+      = link_to_add_association 'add drink', f, :line_items
+  = f.button :submit, btn_label,  class: 'btn btn-lg btn-primary btn-block'
+
+

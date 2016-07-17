@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160716213930) do
+ActiveRecord::Schema.define(version: 20160716213940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,22 +40,24 @@ ActiveRecord::Schema.define(version: 20160716213930) do
 
   create_table "line_items", force: :cascade do |t|
     t.integer  "order_id"
-    t.string   "drink"
-    t.string   "drink_type"
+    t.integer  "drink_id"
     t.integer  "sugar",      default: 0
     t.integer  "milk",       default: 0
     t.integer  "quantity",   default: 0
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.index ["drink_id"], name: "index_line_items_on_drink_id", using: :btree
     t.index ["order_id"], name: "index_line_items_on_order_id", using: :btree
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "status",     default: 0
-    t.boolean "cancelled",  default: false
-    t.boolean "favorite",   default: false
-    t.boolean "reoccuring", default: false
+    t.integer  "user_id"
+    t.integer  "status",     default: 0
+    t.boolean  "favorite",   default: false
+    t.boolean  "reoccuring", default: false
+    t.text     "comments"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.index ["user_id"], name: "index_orders_on_user_id", using: :btree
   end
 
@@ -71,6 +73,7 @@ ActiveRecord::Schema.define(version: 20160716213930) do
   end
 
   add_foreign_key "drinks", "drink_categories"
+  add_foreign_key "line_items", "drinks"
   add_foreign_key "line_items", "orders"
   add_foreign_key "orders", "users"
   add_foreign_key "users", "companies"

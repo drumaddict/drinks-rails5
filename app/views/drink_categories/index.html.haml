@@ -1,0 +1,22 @@
+.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+  %h1.page-header Drink Categories
+  =link_to 'Create New Drink Category', new_drink_category_path, class: 'btn btn-primary btn-lg'
+  .table-responsive
+    %table.table.table-striped
+      %thead
+        %tr
+          %th #
+          %th Name
+          %th Has Sugar
+          %th Has Milk
+      %tbody
+        -@drink_categories.each do |drink_category|
+          %tr
+            %td
+            %td= drink_category.name
+            %td= drink_category.has_sugar
+            %td= drink_category.has_milk
+            %td= link_to 'Edit', edit_drink_category_path(drink_category), class: 'btn btn-primary btn-sm'
+            %td
+              =button_to "Delete", { action: "destroy", id: drink_category.id },  class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: "Are you sure?" }
+              -# =link_to 'Destroy','destroy_drink_path', class: 'btn btn-danger btn-sml'

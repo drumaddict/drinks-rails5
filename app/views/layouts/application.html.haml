@@ -16,9 +16,6 @@
         %a.navbar-brand{:href => "#"} Drinks
         #navbar
           %nav.nav.navbar-nav.pull-xs-left
-            %a.nav-item.nav-link{:href => "#"} Dashboard
-            %a.nav-item.nav-link{:href => "#"} Settings
-            %a.nav-item.nav-link{:href => "#"} Profile
             %a.nav-item.nav-link{:href => logout_path } Logout
           %form.pull-xs-right
             -if current_user
@@ -26,19 +23,20 @@
                 Welcome
                 =current_user.name
             -#%input.form-control{:placeholder => "Search...", :type => "text"}
-    .container-fluid
+    .container-fluid.top23
       -if current_user
+
         .row
           .col-sm-3.col-md-2.sidebar
             %ul.nav.nav-sidebar
-              %li.active
-                %a{:href => "#"}
-                  Overview
-                  %span.sr-only (current)
-              %li
-                %a{:href => "#"} Reportssss
-              %li
-                %a{:href => "#"} Analytics
-              %li
-                %a{:href => "#"} Export
-      = yield
+              %li{class: link_class(orders_path)}
+                %a{:href => orders_path} Orders
+              %li{class: link_class(drinks_path)}
+
+                %a{:href => drinks_path} Drinks
+              %li{class: link_class(drink_categories_path)}
+                %a{:href => drink_categories_path} Drink Categories
+
+          .col-sm-3.col-md-2
+          .col-sm-10.col-md-10
+            = yield

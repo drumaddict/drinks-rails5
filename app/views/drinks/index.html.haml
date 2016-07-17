@@ -1,13 +1,13 @@
 .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
   %h1.page-header Drinks
+  =link_to 'Create New Drink', new_drink_path, class: 'btn btn-primary btn-lg'
   .table-responsive
     %table.table.table-striped
       %thead
         %tr
           %th #
           %th Name
-          %th Drink Type
-          %th
+          %th Drink Category
           %th
       %tbody
         -@drinks.each do |drink|
@@ -15,8 +15,7 @@
             %td
             %td= drink.name
             %td= drink.drink_category.name
-            %td
-              =link_to 'Edit', edit_drink_path(drink), class: 'btn btn-primary btn-sm'
+            %td=link_to 'Edit', edit_drink_path(drink), class: 'btn btn-primary btn-sm'
             %td
               =button_to "Delete", { action: "destroy", id: drink.id },  class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: "Are you sure?" }
               -# =link_to 'Destroy','destroy_drink_path', class: 'btn btn-danger btn-sml'
