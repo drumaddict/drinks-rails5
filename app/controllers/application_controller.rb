@@ -6,10 +6,29 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
-  def authorize
+  def check_authentication
     redirect_to '/login' unless current_user
   end
+
+  def check_authorization
+    redirect_to '/login' unless current_user.manager?
+  end
+
+
+# Only allow a trusted parameter "white list" through.
+  # By default, all parameters are permitted.To enable a white list,
+  # define the PERMITTED_PARAMETERS constant array in each resource
+  # controller.
+  def permitted_resource_params
+    params.require(resource_name.to_sym).permit(*self.class::PERMITTED_PARAMETERS) if self.class::PERMITTED_PARAMETERS
+  end
+
+
+  def resource_name
+    @resource_name ||= controller_name.singularize
+  end
 end
+
 
 
 

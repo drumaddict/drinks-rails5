@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   #
   root :to => 'dashboard#index'
    get '/signup' => 'users#new'
+
    post '/users' => 'users#create'
 
   get '/login' => 'sessions#new', as: :login_form
@@ -10,4 +11,6 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy', as: :logout
 
   resources :orders
+  resources :drinks
+  resources :drink_categories
 end

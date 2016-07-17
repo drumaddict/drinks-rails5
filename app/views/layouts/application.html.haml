@@ -6,36 +6,39 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
-    %nav.navbar.navbar-dark.navbar-fixed-top.bg-inverse
-      %button.navbar-toggler.hidden-sm-up{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "collapse", :type => "button"}
-        %span.sr-only Toggle navigation
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
-      %a.navbar-brand{:href => "#"} Drinks
-      #navbar
-        %nav.nav.navbar-nav.pull-xs-left
-          %a.nav-item.nav-link{:href => "#"} Dashboard
-          %a.nav-item.nav-link{:href => "#"} Settings
-          %a.nav-item.nav-link{:href => "#"} Profile
-          %a.nav-item.nav-link{:href => logout_path } Logout
-        %form.pull-xs-right
-          %h4
-            Welcome
-            =current_user.name
-          -#%input.form-control{:placeholder => "Search...", :type => "text"}
+    -if current_user
+      %nav.navbar.navbar-dark.navbar-fixed-top.bg-inverse
+        %button.navbar-toggler.hidden-sm-up{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "collapse", :type => "button"}
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        %a.navbar-brand{:href => "#"} Drinks
+        #navbar
+          %nav.nav.navbar-nav.pull-xs-left
+            %a.nav-item.nav-link{:href => "#"} Dashboard
+            %a.nav-item.nav-link{:href => "#"} Settings
+            %a.nav-item.nav-link{:href => "#"} Profile
+            %a.nav-item.nav-link{:href => logout_path } Logout
+          %form.pull-xs-right
+            -if current_user
+              %h4
+                Welcome
+                =current_user.name
+            -#%input.form-control{:placeholder => "Search...", :type => "text"}
     .container-fluid
-      .row
-        .col-sm-3.col-md-2.sidebar
-          %ul.nav.nav-sidebar
-            %li.active
-              %a{:href => "#"}
-                Overview
-                %span.sr-only (current)
-            %li
-              %a{:href => "#"} Reportssss
-            %li
-              %a{:href => "#"} Analytics
-            %li
-              %a{:href => "#"} Export
-        = yield
+      -if current_user
+        .row
+          .col-sm-3.col-md-2.sidebar
+            %ul.nav.nav-sidebar
+              %li.active
+                %a{:href => "#"}
+                  Overview
+                  %span.sr-only (current)
+              %li
+                %a{:href => "#"} Reportssss
+              %li
+                %a{:href => "#"} Analytics
+              %li
+                %a{:href => "#"} Export
+      = yield

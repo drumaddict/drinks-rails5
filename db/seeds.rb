@@ -27,7 +27,6 @@ companies_list = [
 
 companies_list.each do |company|
   instance_variable_set "@#{company[0].tableize.singularize.singularize.gsub(' ','_')}".to_sym, Company.create( name: company[0] )
-
 end
 
 # binding.pry
@@ -39,8 +38,6 @@ users_list= [
   ["don", 'don@gmail.com', '55555555', '55555555',0 , @digerati],
   ["mary", 'mary@gmail.com', '66666666', '66666666',0 , @digerati],
   ["bob", 'bob@gmail.com', '77777777', '77777777',0 , @lumium]
-
-
 ]
 
 
@@ -54,4 +51,36 @@ users_list.each do |user|
 end
 
 
+drink_category_list= [
+  ["Coffee",true, true],
+  ["Juice",false, false],
+  ["Tea",true, true]
+]
+
+
+drink_category_list.each do |dc|
+  instance_variable_set "@#{dc[0].tableize.singularize.singularize.gsub(' ','_')}".to_sym, DrinkCategory.create( name: dc[0] , has_sugar:dc[1], has_milk:dc[2])
+end
+
+
+drinks_list= [
+  ["Espresso", @coffee],
+  ["Cappuccino", @coffee],
+  ["Filter", @coffee],
+  ["Greek", @coffee],
+  ["Frappe", @coffee],
+  ["Latte", @coffee],
+  ["Orange Juice", @juice],
+  ["Simply Tea", @tea],
+
+]
+
+drinks_list.each do |drink|
+
+  @drink=Drink.new( name: drink[0] )
+  @drink.drink_category_id= drink[1].id
+  @drink.save
+
+  # instance_variable_set("@#{user[0].tableize.singularize.singularize.gsub(' ','_')}".to_sym, @user )
+end
 

@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
 
-before_filter :authorize
+before_filter :check_authentication
 def new
   @order = Order.new
   respond_to do |format|
