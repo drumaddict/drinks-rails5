@@ -1,7 +1,18 @@
 .nested-fields
   = f.input :order_id,as: :hidden
-  = f.input :drink_id
-  = f.input :sugar
-  = f.input :milk
-  = f.input :quantity
+  = f.input :drink_category_id, collection: DrinkCategory.all.map {|d| [d.name.humanize,d.id ]}, |
+    selected: nil, |
+input_html: { autocomplete: 'off' , class:'drink-category'}
+  = f.input :drink_id, collection: Drink.all.map {|d| [d.name.humanize,d.id ]}, |
+    selected: nil, |
+input_html: { autocomplete: 'off', class:'drink-select' }
+
+  = f.input :sugar, collection: LineItem.sugars.keys.map {|s| [s.humanize,s]}, |
+    selected: nil, |
+input_html: { autocomplete: 'off' }
+
+  = f.input :milk, collection: LineItem.milks.keys.map {|s| [s.humanize,s]}, |
+    selected: nil, |
+input_html: { autocomplete: 'off' }
+  = f.input :quantity, input_html: {class: 'wide80',min: 1 , default:0 }
   = link_to_remove_association "Remove Drink", f

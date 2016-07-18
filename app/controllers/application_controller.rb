@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def check_authentication
+    # binding.pry
+    # return true if request.method == 'GET'
     redirect_to '/login' unless current_user
   end
 

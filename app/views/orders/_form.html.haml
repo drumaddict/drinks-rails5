@@ -1,13 +1,16 @@
-= simple_form_for @order,  html: { class: 'form-inline' } do |f|
+= simple_form_for @order,  html: { class: 'form-inline order-form' ,'data-url': drinks_path} do |f|
   - label = @order.new_record? ? 'New order' : 'Edit order'
   - btn_label = @order.new_record? ? 'Create' : 'Update'
   .row
     %h1=label
     %h2.form-signin-heading
   = f.error_notification
-  -# = f.association :order_category ,input_html: { class: 'large' }, label: 'order Category'
   -# .form-group.row
-  = f.input :status, placeholder: 'Status'
+  -# = f.input :status, placeholder: 'Status'
+  -if !current_user.manager?
+    = f.input :status, collection: Order.statuses.keys.map {|s| [s.humanize,s]}, |
+      selected: Order.statuses.keys[@order.status.to_i], |
+  input_html: { autocomplete: 'off' }
   = f.input :favorite, placeholder: 'Favorite'
   = f.input :reoccuring, placeholder: 'Reoccuring'
   %h3 Drinks
