@@ -1,8 +1,19 @@
 class OrdersController < ApplicationController
   before_filter :check_authentication
-PERMITTED_PARAMETERS = [:user_id, :status, :favorite, :reoccuring, :comments, line_items_attributes: [:order_id, :drink_id, :sugar, :milk, :quantity]].freeze
+PERMITTED_PARAMETERS = [:user_id, :status, :favorite, :reoccuring, :comments, line_items_attributes: [:order_id, :drink_category_id, :_destroy,  :drink_id, :sugar, :milk, :quantity]].freeze
 
+def order_params
+  params.require(:order).permit(:user_id, :status, :favorite, :reoccuring, :comments,
+                                line_items_attributes: [:id, :order_id, :drink_category_id,
+                                                        :_destroy,  :drink_id, :sugar,
+                                                        :milk, :quantity])
+end
 
+def milk_sugar_hash
+
+@id_to_sugar_milk=  DrinkCategory.all.inject({}){|memo,dc| memo[dc.id] = { has_sugar: dc.has_sugar, has_milk: dc.has_milk };memo}.to_json
+
+end
 
   def index
     @orders = Order.all
@@ -14,8 +25,7 @@ PERMITTED_PARAMETERS = [:user_id, :status, :favorite, :reoccuring, :comments, li
 
   def new
     @order = Order.new
-@id_to_sugar_milk=  DrinkCategory.all.inject({}){|memo,dc| memo[dc.id] = { has_sugar: dc.has_sugar, has_milk: dc.has_milk };memo}.to_json
-
+milk_sugar_hash
     1.times {@order.line_items.build}
     respond_to do |format|
       format.html # new.html.erb
@@ -24,8 +34,10 @@ PERMITTED_PARAMETERS = [:user_id, :status, :favorite, :reoccuring, :comments, li
   end
 
   def create
-    @order = Order.new(permitted_resource_params)
+    @order = Order.new(order_params)
     respond_to do |format|
+      # binding.pry
+      @order.line_items.each {|li| li.order=@order}
       if @order.save
         flash[:notice] = 'order was successfully placed.'
         format.html { redirect_to(@order) }
@@ -59,6 +71,7 @@ PERMITTED_PARAMETERS = [:user_id, :status, :favorite, :reoccuring, :comments, li
 
 
   def edit
+milk_sugar_hash
     @order = Order.find(params[:id])
   end
 
@@ -67,7 +80,8 @@ PERMITTED_PARAMETERS = [:user_id, :status, :favorite, :reoccuring, :comments, li
     @order = Order.find(params[:id])
 
     respond_to do |format|
-      if @order.update(permitted_resource_params)
+      # binding.pry
+      if @order.update(order_params)
         flash[:notice] = 'Order was successfully updated.'
         format.html { redirect_to(root_path) }
         format.xml  { head :ok }

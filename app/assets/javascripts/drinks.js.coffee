@@ -1,29 +1,51 @@
 #Gallery page ajax
 jQuery ($) ->
   console.log('DRINKS LOADED')
-
-
-  sm= JSON.parse($('.order-form ').attr('data-milk-sugar'))
-  console.log('sm',sm)
-  console.log('dsf',sm[1]['has_sugar'])
   # $('#flash-photo-msg').hide()
+  #
+  console.log('SEL_DCa, ', $('.drink-category').value)
+  $('.drink-category').each ->
+    $this = $(this)
+    cat_id =  $this.val()
+    sugar_select = $this.parent().parent().find('.sugar-select')
+    milk_select = $this.parent().parent().find('.milk-select')
+    sm= JSON.parse($('.order-form ').attr('data-milk-sugar'))
+    # console.log('sm',sm)
+    if  sm[cat_id]['has_sugar'] == true
+      sugar_select.attr('disabled',false)
+    else
+      sugar_select.attr('disabled',true)
+    if  sm[cat_id]['has_milk'] == true
+      milk_select.attr('disabled',false)
+    else
+      milk_select.attr('disabled',true)
   apply_drink_filer= ->
     $('.drink-category').each ->
       $this = $(this)
       $this.on 'change', (e) ->
-        console.log('SELE')
-        console.log('event',e)
-        console.log('value',e.target.value)
+        url= $('.order-form').attr('data-url')
+        cat_id =  e.target.value
+        sugar_select = $this.parent().parent().find('.sugar-select')
+        milk_select = $this.parent().parent().find('.milk-select')
+        sm= JSON.parse($('.order-form ').attr('data-milk-sugar'))
+        # console.log('sm',sm)
+        if  sm[cat_id]['has_sugar'] == true
+          sugar_select.attr('disabled',false)
+        else
+          sugar_select.attr('disabled',true)
+        if  sm[cat_id]['has_milk'] == true
+          milk_select.attr('disabled',false)
+        else
+          milk_select.attr('disabled',true)
         $.ajax(
           dataType: 'json'
           cache: false
           url: url
           data:
-            cat_id: e.target.value
+            cat_id: cat_id
           beforeSend: (xhr) ->
             return
         ).done((data) ->
-
           console.log(data)
           drink_select = $this.parent().parent().find('.drink-select')
           drink_select.html('')
@@ -36,10 +58,10 @@ jQuery ($) ->
             drink_select.append $('<option>').text(drink.name).attr('value', drink.id)
           return
         ).fail((data) ->
-          console.log( 'fail' );
+          console.log( 'fail' )
           return
         ).always (data) ->
-          console.log( 'always' );
+          console.log( 'always' )
           # $('.main-loader').remove()
           return
         return
@@ -47,4 +69,5 @@ jQuery ($) ->
   apply_drink_filer()
   $('#drinks').on 'cocoon:after-insert', (e, insertedItem) ->
     apply_drink_filer()
+    console.log('')
   return

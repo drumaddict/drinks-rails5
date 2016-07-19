@@ -1,18 +1,16 @@
 .nested-fields
-  = f.input :order_id,as: :hidden
+  = f.input :order_id,as: :hidden, input_html: { value: @order.id }
+
   = f.input :drink_category_id, collection: DrinkCategory.all.map {|d| [d.name.humanize,d.id ]}, |
-    selected: nil, |
 input_html: { autocomplete: 'off' , class:'drink-category'}
   = f.input :drink_id, collection: Drink.all.map {|d| [d.name.humanize,d.id ]}, |
-    selected: nil, |
 input_html: { autocomplete: 'off', class:'drink-select' }
-
+  -# -binding.pry
   = f.input :sugar, collection: LineItem.sugars.keys.map {|s| [s.humanize,s]}, |
-    selected: nil, |
-input_html: { autocomplete: 'off' }
+input_html: { autocomplete: 'off' ,class:'sugar-select', disabled: (f.object.drink_category && f.object.drink_category.has_sugar  ? "false" : "true")}
 
   = f.input :milk, collection: LineItem.milks.keys.map {|s| [s.humanize,s]}, |
-    selected: nil, |
-input_html: { autocomplete: 'off' }
-  = f.input :quantity, input_html: {class: 'wide80',min: 1 , default:0 }
+input_html: { autocomplete: 'off',class:'milk-select' }
+  -# - qty = @order.new_record? ? 1 : @order.quantity
+  = f.input :quantity, input_html: {class: 'wide80',min: 1}
   = link_to_remove_association "Remove Drink", f
