@@ -6,8 +6,7 @@ PERMITTED_PARAMETERS = [:user_id, :status, :favorite, :reoccuring, :comments, li
 
   def index
     @orders = Order.all
-
-    respond_to do |format|
+        respond_to do |format|
       format.html # index.html.erb
       format.json  { render json: @orders }
     end
@@ -15,6 +14,8 @@ PERMITTED_PARAMETERS = [:user_id, :status, :favorite, :reoccuring, :comments, li
 
   def new
     @order = Order.new
+@id_to_sugar_milk=  DrinkCategory.all.inject({}){|memo,dc| memo[dc.id] = { has_sugar: dc.has_sugar, has_milk: dc.has_milk };memo}.to_json
+
     1.times {@order.line_items.build}
     respond_to do |format|
       format.html # new.html.erb

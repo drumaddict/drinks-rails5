@@ -1,4 +1,4 @@
-= simple_form_for @order,  html: { class: 'form-inline order-form' ,'data-url': drinks_path} do |f|
+= simple_form_for @order,  html: { class: 'form-inline order-form' ,'data-url': drinks_path, 'data-milk-sugar': @id_to_sugar_milk} do |f|
   - label = @order.new_record? ? 'New order' : 'Edit order'
   - btn_label = @order.new_record? ? 'Create' : 'Update'
   .row

@@ -1,6 +1,11 @@
 #Gallery page ajax
 jQuery ($) ->
   console.log('DRINKS LOADED')
+
+
+  sm= JSON.parse($('.order-form ').attr('data-milk-sugar'))
+  console.log('sm',sm)
+  console.log('dsf',sm[1]['has_sugar'])
   # $('#flash-photo-msg').hide()
   apply_drink_filer= ->
     $('.drink-category').each ->
@@ -9,9 +14,6 @@ jQuery ($) ->
         console.log('SELE')
         console.log('event',e)
         console.log('value',e.target.value)
-        # e.preventDefault()
-        url= $('.order-form').attr('data-url')
-        # console.log(offset, 'offset')
         $.ajax(
           dataType: 'json'
           cache: false
@@ -19,7 +21,6 @@ jQuery ($) ->
           data:
             cat_id: e.target.value
           beforeSend: (xhr) ->
-            # $('body').append '<div class="main-loader"></div>'
             return
         ).done((data) ->
 
