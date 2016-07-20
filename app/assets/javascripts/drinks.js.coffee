@@ -1,42 +1,31 @@
-#Gallery page ajax
+#Drink Filtering And milk/sugar options
 jQuery ($) ->
-  console.log('DRINKS LOADED')
-  # $('#flash-photo-msg').hide()
-  #
-  console.log('SEL_DCa, ', $('.drink-category').value)
+  console.log('drinks.js.coffee LOADED')
+  handle_milk_sugar_selects = (id,elem)->
+    if id
+      sugar_select = elem.parent().parent().find('.sugar-select')
+      milk_select = elem.parent().parent().find('.milk-select')
+      sm= JSON.parse($('.order-form ').attr('data-milk-sugar'))
+      if  sm[id]['has_sugar']  == true
+        sugar_select.attr('disabled',false)
+      else
+        sugar_select.val('no_sugar')
+        sugar_select.attr('disabled',true)
+      if  sm[id]['has_milk'] == true
+        milk_select.attr('disabled',false)
+      else
+        milk_select.val('no_milk')
+        milk_select.attr('disabled',true)
   $('.drink-category').each ->
-    $this = $(this)
-    cat_id =  $this.val()
-    sugar_select = $this.parent().parent().find('.sugar-select')
-    milk_select = $this.parent().parent().find('.milk-select')
-    sm= JSON.parse($('.order-form ').attr('data-milk-sugar'))
-    # console.log('sm',sm)
-    if  sm[cat_id]['has_sugar'] == true
-      sugar_select.attr('disabled',false)
-    else
-      sugar_select.attr('disabled',true)
-    if  sm[cat_id]['has_milk'] == true
-      milk_select.attr('disabled',false)
-    else
-      milk_select.attr('disabled',true)
+    cat_id =  $(this).val()
+    handle_milk_sugar_selects(cat_id,$(this))
   apply_drink_filer= ->
     $('.drink-category').each ->
       $this = $(this)
       $this.on 'change', (e) ->
         url= $('.order-form').attr('data-url')
         cat_id =  e.target.value
-        sugar_select = $this.parent().parent().find('.sugar-select')
-        milk_select = $this.parent().parent().find('.milk-select')
-        sm= JSON.parse($('.order-form ').attr('data-milk-sugar'))
-        # console.log('sm',sm)
-        if  sm[cat_id]['has_sugar'] == true
-          sugar_select.attr('disabled',false)
-        else
-          sugar_select.attr('disabled',true)
-        if  sm[cat_id]['has_milk'] == true
-          milk_select.attr('disabled',false)
-        else
-          milk_select.attr('disabled',true)
+        handle_milk_sugar_selects(cat_id,$this)
         $.ajax(
           dataType: 'json'
           cache: false
@@ -46,15 +35,9 @@ jQuery ($) ->
           beforeSend: (xhr) ->
             return
         ).done((data) ->
-          console.log(data)
           drink_select = $this.parent().parent().find('.drink-select')
           drink_select.html('')
           $.each data, (i, drink) ->
-            console.log(i,'i')
-            console.log(drink,'drink')
-            console.log($this,'this')
-            console.log($this.parent().parent(),'parebn')
-            console.log($this.parent().parent().find('.drink-select').attr('class'),'close')
             drink_select.append $('<option>').text(drink.name).attr('value', drink.id)
           return
         ).fail((data) ->
@@ -62,12 +45,10 @@ jQuery ($) ->
           return
         ).always (data) ->
           console.log( 'always' )
-          # $('.main-loader').remove()
           return
         return
       return
   apply_drink_filer()
   $('#drinks').on 'cocoon:after-insert', (e, insertedItem) ->
     apply_drink_filer()
-    console.log('')
   return

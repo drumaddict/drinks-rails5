@@ -24,9 +24,9 @@
                 =current_user.name
             -#%input.form-control{:placeholder => "Search...", :type => "text"}
     .container-fluid.top23
-      -if current_user
 
-        .row
+      .row
+        -if current_user
           .col-sm-3.col-md-2.sidebar
             %ul.nav.nav-sidebar
               %li{class: link_class(orders_path)}
@@ -37,6 +37,6 @@
               %li{class: link_class(drink_categories_path)}
                 %a{:href => drink_categories_path} Drink Categories
 
-          .col-sm-3.col-md-2
-          .col-sm-10.col-md-10
-            = yield
+        .col-sm-3.col-md-2
+        .col-sm-10.col-md-10
+          = yield

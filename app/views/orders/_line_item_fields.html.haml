@@ -1,4 +1,4 @@
-.nested-fields
+.nested-fields.top23
   = f.input :order_id,as: :hidden, input_html: { value: @order.id }
 
   = f.input :drink_category_id, collection: DrinkCategory.all.map {|d| [d.name.humanize,d.id ]}, |
@@ -7,10 +7,10 @@ input_html: { autocomplete: 'off' , class:'drink-category'}
 input_html: { autocomplete: 'off', class:'drink-select' }
   -# -binding.pry
   = f.input :sugar, collection: LineItem.sugars.keys.map {|s| [s.humanize,s]}, |
-input_html: { autocomplete: 'off' ,class:'sugar-select', disabled: (f.object.drink_category && f.object.drink_category.has_sugar  ? "false" : "true")}
+input_html: { autocomplete: 'off' ,class:'sugar-select' }
 
   = f.input :milk, collection: LineItem.milks.keys.map {|s| [s.humanize,s]}, |
 input_html: { autocomplete: 'off',class:'milk-select' }
   -# - qty = @order.new_record? ? 1 : @order.quantity
   = f.input :quantity, input_html: {class: 'wide80',min: 1}
-  = link_to_remove_association "Remove Drink", f
+  = link_to_remove_association "Remove Drink", f, class: 'btn btn-danger btn-sm'

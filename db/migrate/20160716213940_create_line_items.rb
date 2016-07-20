@@ -6,7 +6,7 @@ class CreateLineItems < ActiveRecord::Migration[5.0]
       t.references :drink_category, index: true, foreign_key: true
       t.integer :sugar, default: 0
       t.integer :milk, default: 0
-      t.integer :quantity, default: 0
+      t.integer :quantity, default: 1
       t.timestamps
     end
   end
