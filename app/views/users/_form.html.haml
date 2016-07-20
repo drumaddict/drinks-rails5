@@ -1,0 +1,8 @@
+.container
+  = simple_form_for @user,  html: { class: 'form-signin' } do |f|
+    %h2.form-signin-heading Edit name and company
+    = f.error_notification
+    = f.input :name, placeholder: ' name'
+    = f.association :company, placeholder: 'comapany'
+    = f.button :submit, 'Update',  class: 'btn btn-lg btn-primary btn-block'
+

@@ -1,22 +1,23 @@
 .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
   %h1.page-header Orders
+  %h6 Hover over order to see details
   =link_to 'Create New Order', new_order_path, class: 'btn btn-primary btn-lg'
   .table-responsive
     %table.table.table-striped
       %thead
         %tr
           %th #
-          %th Summary
           %th User name
+          %th Company
           %th Status
           %th Favorite
           %th Reoccuring
       %tbody
         -@orders.each do |order|
-          %tr
+          %tr.tt{title: order.description.join(','), 'data-placement':'left'}
             %td=order.id
-            %td= 'summary'
             %td= order.user.name
+            %td= order.user.company.name
             %td= order.status
             %td= order.favorite
             %td= order.reoccuring

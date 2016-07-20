@@ -10,9 +10,7 @@ class OrdersController < ApplicationController
     end
 
     def milk_sugar_hash
-
       @id_to_sugar_milk=  DrinkCategory.all.inject({}){|memo,dc| memo[dc.id] = { has_sugar: dc.has_sugar, has_milk: dc.has_milk };memo}.to_json
-
     end
 
     def index
@@ -43,6 +41,7 @@ class OrdersController < ApplicationController
           format.html { redirect_to(@order) }
           # format.xml { render :xml => @order, :status => :created, :location => @order }
         else
+          milk_sugar_hash
           format.html { render :action => "new" }
           # format.xml { render :xml => @order.errors, :status => :unprocessable_entity }
         end
@@ -87,6 +86,7 @@ class OrdersController < ApplicationController
           format.xml  { head :ok }
         else
           milk_sugar_hash
+          # binding.pry
           format.html { render action: 'edit' }
           format.xml  { render xml: @order.errors, status: :unprocessable_entity }
         end

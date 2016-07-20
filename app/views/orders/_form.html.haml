@@ -1,3 +1,5 @@
+- # binding.pry
+-# - id_to_sugar_milk ||= @id_to_sugar_milk
 = simple_form_for @order,  html: { class: 'form-inline order-form' ,'data-url': drinks_path, 'data-milk-sugar': @id_to_sugar_milk} do |f|
   - label = @order.new_record? ? 'New order' : 'Edit order'
   - btn_label = @order.new_record? ? 'Create' : 'Update'
@@ -14,6 +16,11 @@
             %li
               %ul
               =msg
+  -if @order.description
+    .jumbotron.bg-info
+      %h3 Summary
+      - @order.description.each do |item_description|
+        %h6= item_description
   .form-group
     = f.input :user_id, as: :hidden, input_html: { value: current_user.id}
     -if !current_user.manager?
