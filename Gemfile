@@ -33,6 +33,7 @@ gem "active_model_serializers"
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end
+gem 'has_scope'
 # Use Redis adapter to run Action Cable in production
 #
 #

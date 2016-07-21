@@ -2,6 +2,10 @@ class OrdersController < ApplicationController
   before_filter :check_authentication
   PERMITTED_PARAMETERS = [:user_id, :status, :favorite, :reoccuring, :comments, line_items_attributes: [:order_id, :drink_category_id, :_destroy,  :drink_id, :sugar, :milk, :quantity]].freeze
 
+has_scope :favorite, :type => :boolean
+has_scope :reoccuring, :type => :boolean
+  has_scope :by_company
+
   def order_params
     params.require(:order).permit(:user_id, :status, :favorite, :reoccuring, :comments,
       line_items_attributes: [:id, :order_id, :drink_category_id,
@@ -14,7 +18,8 @@ class OrdersController < ApplicationController
     end
 
     def index
-      @orders = Order.all
+      # @orders = Order.all
+     @orders = apply_scopes(Order).all
       respond_to do |format|
         format.html # index.html.erb
         format.json  { render json: @orders }
@@ -37,11 +42,12 @@ class OrdersController < ApplicationController
         # binding.pry
         @order.line_items.each {|li| li.order=@order}
         if @order.save
-          flash[:notice] = 'order was successfully placed.'
-          format.html { redirect_to(@order) }
+          flash[:success] = 'Order was successfully placed.'
+          format.html { redirect_to(root_path) }
           # format.xml { render :xml => @order, :status => :created, :location => @order }
         else
           milk_sugar_hash
+          flash.now[:form_error] = 'Please correct the errors.'
           format.html { render :action => "new" }
           # format.xml { render :xml => @order.errors, :status => :unprocessable_entity }
         end
@@ -81,13 +87,15 @@ class OrdersController < ApplicationController
       respond_to do |format|
         # binding.pry
         if @order.update(order_params)
-          flash[:notice] = 'Order was successfully updated.'
+          flash[:success] = 'Order was successfully updated.'
           format.html { redirect_to(root_path) }
           format.xml  { head :ok }
         else
           milk_sugar_hash
           # binding.pry
+          flash[:form_error] = 'Please correct the form errors.'
           format.html { render action: 'edit' }
+
           format.xml  { render xml: @order.errors, status: :unprocessable_entity }
         end
       end

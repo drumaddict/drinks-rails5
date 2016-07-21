@@ -11,3 +11,40 @@
 }
 
 
+#flash-error-msg {
+  background: #b92211;
+  -webkit-box-shadow: 0 5px 10px rgba(black, .3);
+         box-shadow: 0 5px 10px rgba(black, .3);
+  padding: 1em;
+  position: fixed;
+  width: 100%;
+  z-index: 4444;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  height: 80 px;
+}
+
+
+ #flash-success-msg {
+  background: green;
+  -webkit-box-shadow: 0 5px 10px rgba(black, .3);
+         box-shadow: 0 5px 10px rgba(black, .3);
+  padding: 1em;
+  position: fixed;
+  width: 100%;
+  z-index: 4444;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  height: 80 px;
+}
+
+.red{
+  color: red;
+}
+
+.green{
+  color: green;
+}
+

@@ -16,7 +16,7 @@
             %li
               %ul
               =msg
-  -if @order.description
+  -if @order.description.present?
     .jumbotron.bg-info
       %h3 Summary
       - @order.description.each do |item_description|

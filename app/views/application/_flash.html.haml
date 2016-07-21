@@ -1,0 +1,6 @@
+- unless flash[:form_error].blank?
+  %div#flash-error-msg.flash
+    =flash[:form_error]
+- unless flash[:success].blank?
+  %div#flash-success-msg.flash
+    =flash[:success]

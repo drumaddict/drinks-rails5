@@ -26,12 +26,11 @@ class DrinkCategoriesController < ApplicationController
     @drink_category = DrinkCategory.new(permitted_resource_params)
     respond_to do |format|
       if @drink_category.save
-        flash[:notice] = 'drink_category was successfully created.'
-        format.html { redirect_to(drink_categories_path) }
-        # format.xml { render :xml => @drink_category, :status => :created, :location => @drink_category }
+        flash[:success] = 'Drink Category was successfully created.'
+         format.html { redirect_to(drink_categories_path) }
       else
+        flash.now[:form_error] = 'Please correct the errors'
         format.html { render :action => "new" }
-        # format.xml { render :xml => @drink_category.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -41,7 +40,6 @@ class DrinkCategoriesController < ApplicationController
     @drink_category = DrinkCategory.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
-      # format.xml  { render xml: @drink_category }
     end
   end
 
@@ -67,10 +65,11 @@ class DrinkCategoriesController < ApplicationController
 
     respond_to do |format|
       if @drink_category.update(permitted_resource_params)
-        flash[:notice] = 'Drink Category was successfully updated.'
+        flash[:success] = 'Drink Category was successfully updated.'
         format.html { redirect_to(drink_categories_path) }
         format.xml  { head :ok }
       else
+        flash[:form_error] = 'Please correct the form errors.'
         format.html { render action: 'edit' }
         format.xml  { render xml: @drink_category.errors, status: :unprocessable_entity }
       end

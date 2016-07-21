@@ -1,8 +1,5 @@
 class DrinksController < ApplicationController
-  # before_filter :check_authentication, :check_authorization
   before_filter :check_authentication
-
-
   PERMITTED_PARAMETERS = [:name, :drink_category_id].freeze
   def index
     # binding.pry
@@ -23,16 +20,17 @@ class DrinksController < ApplicationController
       format.xml  { render xml: @drink }
     end
   end
+
   def create
     @drink = Drink.new(permitted_resource_params)
     respond_to do |format|
       if @drink.save
-        flash[:notice] = 'drink was successfully created.'
+        flash[:success] = 'Drink was successfully created.'
         format.html { redirect_to(drinks_path) }
-        # format.xml { render :xml => @drink, :status => :created, :location => @drink }
       else
+
+        flash.now[:form_error] = 'Please correct the errors'
         format.html { render :action => "new" }
-        # format.xml { render :xml => @drink.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -42,7 +40,6 @@ class DrinksController < ApplicationController
     @drink = Drink.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
-      # format.xml  { render xml: @drink }
     end
   end
 
@@ -67,10 +64,11 @@ class DrinksController < ApplicationController
 
     respond_to do |format|
       if @drink.update(permitted_resource_params)
-        flash[:notice] = 'Drink was successfully updated.'
+        flash[:success] = 'Drink was successfully updated.'
         format.html { redirect_to(drinks_path) }
         format.xml  { head :ok }
       else
+        flash[:form_error] = 'Please correct the form errors.'
         format.html { render action: 'edit' }
         format.xml  { render xml: @drink.errors, status: :unprocessable_entity }
       end

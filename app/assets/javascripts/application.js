@@ -17,5 +17,6 @@
 //= require jquery_ujs
 //= require cocoon
 //= require drinks
+//= require flash
 //= require_tree .
 //

@@ -17,10 +17,12 @@ PERMITTED_PARAMETERS = [:name,:company_id].freeze
 
      respond_to do |format|
        if @user.update(permitted_resource_params)
-         flash[:notice] = "User #{current_user.name} was successfully updated."
+         flash[:success] = "User #{current_user.name} was successfully updated."
          format.html { redirect_to(root_path) }
          format.xml  { head :ok }
        else
+
+         flash[:form_error] = 'Please correct the form errors'
          format.html { render action: 'edit' }
          format.xml  { render xml: @user.errors, status: :unprocessable_entity }
        end
