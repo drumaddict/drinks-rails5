@@ -33,15 +33,30 @@
           .col-sm-3.col-md-2.sidebar
             %ul.nav.nav-sidebar
               %li{class: link_class(orders_path)}
-                %a{:href => orders_path} Orders
+                =link_to orders_path do
+                  All Orders
               %li{class: link_class(edit_user_path(current_user))}
-                %a{:href => edit_user_path(current_user)} Edit Name And Company
+                =link_to edit_user_path(current_user) do
+                  Edit Name And Company
+              %li{class: orders_path(favorite: 'true')}
+                =link_to orders_path(favorite: 'true') do
+                  Favorite
+              %li{class: orders_path(reoccuring: 'true')}
+                =link_to orders_path(reoccuring: 'true') do
+                  Reoccuring
+
+            %ul.nav.nav-sidebar
+              -@companies.each do |company|
+                %li{class: link_class(orders_path(by_company: company.id))}
+                  =link_to orders_path(by_company: company.id) do
+                    =company.name
+            %ul.nav.nav-sidebar
               %li{class: link_class(drinks_path)}
-                %a{:href => drinks_path} Drinks
+                =link_to drinks_path do
+                  Drinks
               %li{class: link_class(drink_categories_path)}
-                %a{:href => drink_categories_path} Drink Categories
-
-
+                =link_to drink_categories_path do
+                  Drink Categories
         .col-sm-3.col-md-2
         .col-sm-10.col-md-10
           = yield

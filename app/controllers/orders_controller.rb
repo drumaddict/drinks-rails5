@@ -2,8 +2,8 @@ class OrdersController < ApplicationController
   before_filter :check_authentication
   PERMITTED_PARAMETERS = [:user_id, :status, :favorite, :reoccuring, :comments, line_items_attributes: [:order_id, :drink_category_id, :_destroy,  :drink_id, :sugar, :milk, :quantity]].freeze
 
-has_scope :favorite, :type => :boolean
-has_scope :reoccuring, :type => :boolean
+  has_scope :favorite, :type => :boolean
+  has_scope :reoccuring, :type => :boolean
   has_scope :by_company
 
   def order_params
@@ -13,13 +13,15 @@ has_scope :reoccuring, :type => :boolean
       :milk, :quantity])
     end
 
+
     def milk_sugar_hash
       @id_to_sugar_milk=  DrinkCategory.all.inject({}){|memo,dc| memo[dc.id] = { has_sugar: dc.has_sugar, has_milk: dc.has_milk };memo}.to_json
     end
 
     def index
-      # @orders = Order.all
-     @orders = apply_scopes(Order).all
+      # @orders = Order.al
+      # @companies= Company.all
+      @orders = apply_scopes(Order).order(id: :desc).all
       respond_to do |format|
         format.html # index.html.erb
         format.json  { render json: @orders }
@@ -96,6 +98,27 @@ has_scope :reoccuring, :type => :boolean
           flash[:form_error] = 'Please correct the form errors.'
           format.html { render action: 'edit' }
 
+          format.xml  { render xml: @order.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+    def reorder
+      @order = Order.find(params[:id])
+
+      respond_to do |format|
+        @reorder = @order.dup
+        @reorder.favorite =false
+        @order.line_items.each do |li|
+          @reorder.line_items << li.dup
+        end
+        if @reorder.save
+          flash[:success] = 'Your favorite order has been placed again.'
+          format.html { redirect_to(root_path) }
+          format.xml  { head :ok }
+        else
+          milk_sugar_hash
+          flash[:form_error] = 'Please correct the form errors.'
+          format.html { render action: 'edit' }
           format.xml  { render xml: @order.errors, status: :unprocessable_entity }
         end
       end

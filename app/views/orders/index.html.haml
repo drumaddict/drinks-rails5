@@ -1,5 +1,14 @@
 .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
   %h1.page-header Orders
+  -# - binding.pry
+  -if params[:by_company].present?
+    %h4=@companies.find{|c|c.id == params[:by_company].to_i}.name
+  -if params[:favorite].present?
+    %h4
+      Favorite
+  -if params[:reoccuring].present?
+    %h4
+      Reoccuring
   %h6 Hover over order to see details
   =link_to 'Create New Order', new_order_path, class: 'btn btn-primary btn-lg'
   .table-responsive
@@ -24,4 +33,7 @@
             %td=link_to 'Edit', edit_order_path(order), class: 'btn btn-primary btn-sm'
             %td
               =button_to "Delete", { action: "destroy", id: order.id },  class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: "Are you sure?" }
+            -if order.favorite?
+              %td
+                =button_to "Re-Order", { action: "reorder", id: order.id },  class: 'btn btn-info btn-sm', method: :post, data: { confirm: "Are you sure?" }
               -# =link_to 'Destroy','destroy_drink_path', class: 'btn btn-danger btn-sml'

@@ -18,7 +18,7 @@ belongs_to :user
 
   accepts_nested_attributes_for :line_items, :allow_destroy => true
   # accepts_nested_attributes_for :line_items, :reject_if => :all_blank, :allow_destroy => true
-  # validates :email, presence: :true
+  validates :line_items, presence: :true
   def description
     return []  if  self.new_record? || !self.valid?
     line_items.inject([]) do |memo, item|

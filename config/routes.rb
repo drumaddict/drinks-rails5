@@ -10,7 +10,11 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy', as: :logout
 
 
-  resources :orders
+  resources :orders do
+    member do
+      post 'reorder'
+    end
+  end
   resources :drinks
   resources :drink_categories
   resources :users
