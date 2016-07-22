@@ -5,6 +5,10 @@ class OrdersController < ApplicationController
   has_scope :favorite, :type => :boolean
   has_scope :reoccuring, :type => :boolean
   has_scope :by_company
+  has_scope :status
+  # has_scope :in_progress
+  # has_scope :cancelled
+  # has_scope :complete
 
   def order_params
     params.require(:order).permit(:user_id, :status, :favorite, :reoccuring,  :hour, :comments,
@@ -102,6 +106,7 @@ class OrdersController < ApplicationController
         end
       end
     end
+
     def reorder
       @order = Order.find(params[:id])
       @reorder = @order.duplicate
@@ -114,6 +119,25 @@ class OrdersController < ApplicationController
         else
           milk_sugar_hash
           flash[:form_error] = 'Please correct the form errors.'
+          format.html { render action: 'edit' }
+          format.xml  { render xml: @order.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+
+
+    def cancel
+      @order = Order.find(params[:id])
+      @order.status = 'cancelled'
+
+      respond_to do |format|
+        if @order.save
+          flash[:success] = 'Order has been cancelled.'
+          format.html { redirect_to(root_path) }
+          format.xml  { head :ok }
+        else
+          # milk_sugar_hash
+          flash[:form_error] = 'An error occured'
           format.html { render action: 'edit' }
           format.xml  { render xml: @order.errors, status: :unprocessable_entity }
         end

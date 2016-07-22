@@ -2,5 +2,5 @@ jQuery ($) ->
   setTimeout (->
       $('.flash').slideUp()
       return
-    ), 5000
+    ), 8000
 

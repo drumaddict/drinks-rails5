@@ -1,12 +1,18 @@
+# bundle exec whenever -i To add cron job
+# tail -f log/cron.log To see the cron tab logs
+# crontab -e To see what has been written to cron tab
+# bundle exec sidekiq To start sidekiq
+
 env :PATH, ENV['PATH']
 env :GEM_PATH, ENV['GEM_PATH']
-# set :bundle_command, "/home/spiros/.gem/ruby/2.3.1/bin/bundle"
+# For Development only. Heroku does not support cron, instead providing Heroku Scheduler
 set :environment, :development
 set :output, {:error => "log/cron.log", :standard => "log/cron.log"}
 # Use this file to easily define all of your cron jobs.
 job_type :sidekiq, "cd :path && :environment_variable=:environment  bundle exec sidekiq-client push :task :output"
 
-every 1.minutes  do
+# Job defined in app/workers/reoccuring_orders.rb
+every :hour  do
   sidekiq "ReoccuringOrders"
 end
 #

@@ -26,7 +26,6 @@ class Order < ApplicationRecord
       item_description += "Sugar: #{item.sugar.humanize}. " if item.drink_category.has_sugar
       item_description += "Milk: #{item.milk.humanize}. " if item.drink_category.has_milk
       memo << item_description
-      # memo <<  "#{item.drink.name} (#{item.quantity}), sugar: #{item.sugar.humanize}, milk: #{item.milk.humanize}"
       memo
     end
   end
@@ -40,6 +39,7 @@ class Order < ApplicationRecord
     order_dup
   end
 
+  #Scheduled to run every hour and place reoccuring orders for specified time and day.
   def self.place_reoccuring
     self.reoccuring.each do |reoccuring_order|
       order_days = reoccuring_order.days.map.reject(&:empty?).map(&:to_i) #Delete empty string entry from multiple checkboxes bug.

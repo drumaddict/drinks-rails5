@@ -17,27 +17,28 @@
               %ul
               =msg
   -if @order.description.present?
-    .jumbotron.bg-info
-      %h3 Summary
-      - @order.description.each do |item_description|
-        %h6= item_description
+    .jumbotron.bg-info.container
+      .pull-xs-left.col-sm-3.col-md-7
+        %h3 Summary
+        - @order.description.each do |item_description|
+          %h6= item_description
+      .col-sm-3.col-md-3
+        =f.input :comments, input_html: { class: 'wide366'}
   .form-group
     = f.input :user_id, as: :hidden, input_html: { value: current_user.id}
     -if !current_user.manager?
-      -# -binding.pry
       = f.input :status, collection: Order.statuses.keys.map {|s| [s.humanize,s]}, |
         selected: @order.status, |
     input_html: { autocomplete: 'off' }
     = f.input :favorite, placeholder: 'Favorite'
-    = f.input :reoccuring, placeholder: 'Reoccuring'
-    -# = f.input :days, collection: DateAndTime::Calculations::DAYS_INTO_WEEK.to_a,  prompt: 'Days To Place At'
-    .checkbox
+    = f.input :reoccuring, placeholder: 'Reoccuring', input_html: { class: 'reoccuring'}
+
+    .checkbox.days
       = f.collection_check_boxes :days,Date::DAYNAMES.map.with_index { |d, i| [d, i] }, :last, :first, checked: @order.days
-    = f.input  :hour,collection: (9..17).to_a.map{|h| [h.to_s+':00',h]}, prompt: 'Choose hour'
-  .form-group.pull-xs-right
-    =f.input :comments, input_html: { class: 'wide520'}
-  %h3 Drinks
-  .form-group
+    = f.input  :hour,collection: (9..17).to_a.map{|h| [h.to_s+':00',h]}, prompt: 'Choose hour',label: false,  input_html: { class: 'hour'}
+
+  .top23
+    %h3 Drinks
     #drinks
       = f.simple_fields_for :line_items do |line_items_form|
         = render 'line_item_fields', :f => line_items_form

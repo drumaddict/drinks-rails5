@@ -37,12 +37,18 @@
               %li{class: link_class(edit_user_path(current_user))}
                 =link_to edit_user_path(current_user) do
                   Edit Name And Company
-              %li{class: orders_path(favorite: 'true')}
+              %li{class: link_class(orders_path(favorite: 'true'))}
                 =link_to orders_path(favorite: 'true') do
                   Favorite
-              %li{class: orders_path(reoccuring: 'true')}
+              %li{class: link_class(orders_path(reoccuring: 'true'))}
                 =link_to orders_path(reoccuring: 'true') do
                   Reoccuring
+
+            %ul.nav.nav-sidebar
+              - Order.statuses.keys.each do |status|
+                %li{class: link_class(orders_path(status: status))}
+                  =link_to orders_path(status: status) do
+                    =status.humanize
 
             %ul.nav.nav-sidebar
               -@companies.each do |company|
