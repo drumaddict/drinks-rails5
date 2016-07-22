@@ -34,7 +34,12 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end
 gem 'has_scope'
+
+gem 'sidekiq'
+gem 'sidekiq-client-cli'
 gem 'whenever', :require => false
+
+
 # Use Redis adapter to run Action Cable in production
 #
 #

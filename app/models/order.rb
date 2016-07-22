@@ -40,6 +40,21 @@ class Order < ApplicationRecord
     order_dup
   end
 
+  def self.place_reoccuring
+    self.reoccuring.each do |reoccuring_order|
+      order_days = reoccuring_order.days.map.reject(&:empty?).map(&:to_i) #Delete empty string entry from multiple checkboxes bug.
+      order_hour = reoccuring_order.hour
+      now = DateTime.current
+      if now.hour == order_hour  &&  order_days.include?(now.wday)
+        order = reoccuring_order.duplicate
+        order.reoccuring = false
+        if  order.save
+           Rails.logger.info "Order with id #{order.id} has been re-placed.Details: #{order.description} "
+        end
+      end
+    end
+  end
+
 
 end
 
