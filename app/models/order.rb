@@ -6,12 +6,12 @@ class Order < ApplicationRecord
   # end
 
   has_many :line_items, dependent: :destroy
-belongs_to :user
+  belongs_to :user
 
   enum status: [:in_progress, :complete, :cancelled]
   scope :status, -> (status) { where(status: status) }
 
-   scope :favorite, -> { where(:favorite => true) }
+  scope :favorite, -> { where(:favorite => true) }
   scope  :reoccuring, -> { where(:reoccuring => true) }
   scope :by_company, -> company_id { joins(:user).where("users.company_id = ? ", company_id) }
 
@@ -30,10 +30,17 @@ belongs_to :user
       memo
     end
   end
-  def summary
 
-
+  def duplicate
+    order_dup = self.dup
+    order_dup.favorite =false
+    self.line_items.each do |li|
+      order_dup.line_items << li.dup
+    end
+    order_dup
   end
+
+
 end
 
 

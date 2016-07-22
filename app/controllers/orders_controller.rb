@@ -7,10 +7,10 @@ class OrdersController < ApplicationController
   has_scope :by_company
 
   def order_params
-    params.require(:order).permit(:user_id, :status, :favorite, :reoccuring, :comments,
+    params.require(:order).permit(:user_id, :status, :favorite, :reoccuring,  :hour, :comments,
       line_items_attributes: [:id, :order_id, :drink_category_id,
         :_destroy,  :drink_id, :sugar,
-      :milk, :quantity])
+      :milk, :quantity], days: [])
     end
 
 
@@ -104,13 +104,9 @@ class OrdersController < ApplicationController
     end
     def reorder
       @order = Order.find(params[:id])
+      @reorder = @order.duplicate
 
       respond_to do |format|
-        @reorder = @order.dup
-        @reorder.favorite =false
-        @order.line_items.each do |li|
-          @reorder.line_items << li.dup
-        end
         if @reorder.save
           flash[:success] = 'Your favorite order has been placed again.'
           format.html { redirect_to(root_path) }

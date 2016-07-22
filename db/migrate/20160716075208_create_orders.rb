@@ -6,6 +6,8 @@ class CreateOrders < ActiveRecord::Migration[5.0]
       t.boolean :favorite, default: false
       t.boolean :reoccuring, default: false
       t.text :comments
+      t.text :days, array:true, default: []
+      t.integer :hour
       t.timestamps
     end
   end

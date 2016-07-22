@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20160716213940) do
     t.integer  "drink_category_id"
     t.integer  "sugar",             default: 0
     t.integer  "milk",              default: 0
-    t.integer  "quantity",          default: 0
+    t.integer  "quantity",          default: 1
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.index ["drink_category_id"], name: "index_line_items_on_drink_category_id", using: :btree
@@ -58,6 +58,8 @@ ActiveRecord::Schema.define(version: 20160716213940) do
     t.boolean  "favorite",   default: false
     t.boolean  "reoccuring", default: false
     t.text     "comments"
+    t.text     "days",       default: [],                 array: true
+    t.integer  "hour"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.index ["user_id"], name: "index_orders_on_user_id", using: :btree

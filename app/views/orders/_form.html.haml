@@ -30,6 +30,10 @@
     input_html: { autocomplete: 'off' }
     = f.input :favorite, placeholder: 'Favorite'
     = f.input :reoccuring, placeholder: 'Reoccuring'
+    -# = f.input :days, collection: DateAndTime::Calculations::DAYS_INTO_WEEK.to_a,  prompt: 'Days To Place At'
+    .checkbox
+      = f.collection_check_boxes :days,DateAndTime::Calculations::DAYS_INTO_WEEK.to_a, :last, :first, checked: @order.days
+    = f.input  :hour,collection: (9..17).to_a.map{|h| [h.to_s+':00',h]}, prompt: 'Choose hour'
   .form-group.pull-xs-right
     =f.input :comments, input_html: { class: 'wide520'}
   %h3 Drinks

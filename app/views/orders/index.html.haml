@@ -21,6 +21,9 @@
           %th Status
           %th Favorite
           %th Reoccuring
+          %th Created
+          %th Updated
+
       %tbody
         -@orders.each do |order|
           %tr.tt{title: order.description.join(','), 'data-placement':'left'}
@@ -30,6 +33,9 @@
             %td= order.status
             %td= order.favorite
             %td= order.reoccuring
+            %td= order.created_at.strftime("%d/%m/%Y, %I:%M %p")
+            %td= order.updated_at.strftime("%d/%m/%Y, %I:%M %p")
+
             %td=link_to 'Edit', edit_order_path(order), class: 'btn btn-primary btn-sm'
             %td
               =button_to "Delete", { action: "destroy", id: order.id },  class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: "Are you sure?" }
