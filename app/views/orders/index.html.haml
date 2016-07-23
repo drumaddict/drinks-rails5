@@ -46,4 +46,5 @@
             -if order.favorite?
               %td
                 =button_to "Re-Order", { action: "reorder", id: order.id },  class: 'btn btn-info btn-sm', method: :post, data: { confirm: "Are you sure you want to place this order again?" }
-              -# =link_to 'Destroy','destroy_drink_path', class: 'btn btn-danger btn-sml'
+  =paginate @orders
+

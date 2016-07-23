@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-  # KAMINARI_RECORDS_PER_PAGE = 10
+  KAMINARI_RECORDS_PER_PAGE = 10
   # Set default ApplicationPolicy for all models
   # def self.policy_class
   #   'ApplicationPolicy'
@@ -14,6 +14,8 @@ class Order < ApplicationRecord
   scope :favorite, -> { where(:favorite => true) }
   scope  :reoccuring, -> { where(:reoccuring => true) }
   scope :by_company, -> company_id { joins(:user).where("users.company_id = ? ", company_id) }
+  # scope :by_user, -> user_id { where(user_id: user_id) }
+  # scope :by_user, -> user_id { where(user_id: user_id) }
 
 
   accepts_nested_attributes_for :line_items, :allow_destroy => true
@@ -55,6 +57,11 @@ class Order < ApplicationRecord
     end
   end
 
+
+  def self.by_user(id)
+     user = User.find(id)
+     user.manager? ? self.all : self.where(user_id: id)
+  end
 
 end
 

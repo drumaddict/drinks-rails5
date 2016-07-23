@@ -34,13 +34,15 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end
 gem 'has_scope'
-
+# gem 'kaminari'
+gem 'kaminari', :git => "git://github.com/amatsuda/kaminari.git", :branch => 'master'
 gem 'sidekiq'
 gem 'sidekiq-client-cli'
 gem 'whenever', :require => false
 
 
 # Use Redis adapter to run Action Cable in production
+#
 #
 #
 #

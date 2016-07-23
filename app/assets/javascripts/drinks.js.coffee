@@ -2,11 +2,18 @@
 jQuery ($) ->
   console.log('drinks.js.coffee LOADED')
   #Toggle reoccuring days and hour
+  toggle_hour_and_days = ()->
+    reoccuring_selected = $('.reoccuring').prop('checked')
+    # console.log(reoccuring_selected, 'reoccuring selected?')
+    if reoccuring_selected
+      $('.days').fadeTo(100,1)
+      $('.hour').fadeTo(100,1)
+    else
+      $('.days').fadeTo('slow',0)
+      $('.hour').fadeTo('slow',0)
+  toggle_hour_and_days()
   $('.reoccuring').click ->
-    $('.days').toggle 'slow', ->
-      return
-    $('.hour').toggle 'slow', ->
-      return
+    toggle_hour_and_days()
     return
   $('tr.tt').tooltip()
   handle_milk_sugar_selects = (id,elem)->
