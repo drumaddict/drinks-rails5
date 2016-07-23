@@ -23,10 +23,12 @@
         - @order.description.each do |item_description|
           %h6= item_description
       .col-sm-3.col-md-3
-        =f.input :comments, input_html: { class: 'wide366'}
+        -if current_user.manager?
+          =f.input :comments, input_html: { class: 'wide366'}
   .form-group
-    = f.input :user_id, as: :hidden, input_html: { value: current_user.id}
-    -if !current_user.manager?
+    -if @order.new_record?
+      = f.input :user_id, as: :hidden, input_html: { value: current_user.id}
+    -if current_user.manager?
       = f.input :status, collection: Order.statuses.keys.map {|s| [s.humanize,s]}, |
         selected: @order.status, |
     input_html: { autocomplete: 'off' }

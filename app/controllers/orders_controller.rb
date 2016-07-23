@@ -1,11 +1,23 @@
 class OrdersController < ApplicationController
-  before_filter :check_authentication
+  before_action :check_authentication
+  before_action :authorize,except: [:index, :new, :create], unless: -> { current_user.manager? }
   PERMITTED_PARAMETERS = [:user_id, :status, :favorite, :reoccuring, :comments, :page, :per,  line_items_attributes: [:order_id, :drink_category_id, :_destroy,  :drink_id, :sugar, :milk, :quantity]].freeze
 
   has_scope :favorite, :type => :boolean
   has_scope :reoccuring, :type => :boolean
   has_scope :by_company
   has_scope :status
+
+  def authorize
+    # binding.pry
+    order =  Order.find(params[:id].to_i)
+    if order.user_id == current_user.id
+     return true
+    else
+      flash[:form_error] = 'Unauthorized.Cannot manipulate order of another user'
+      redirect_to root_path
+    end
+  end
 
   def order_params
     params.require(:order).permit(:user_id, :status, :favorite, :reoccuring,  :hour, :comments,
@@ -14,34 +26,35 @@ class OrdersController < ApplicationController
       :milk, :quantity], days: [])
     end
 
-  def page_params
-    params.permit(:page, :per, :format, :id)
-  end
+    def page_params
+      params.permit(:page, :per, :format, :id)
+    end
 
     def milk_sugar_hash
       @id_to_sugar_milk=  DrinkCategory.all.inject({}){|memo,dc| memo[dc.id] = { has_sugar: dc.has_sugar, has_milk: dc.has_milk };memo}.to_json
     end
 
 
-  def get_per
-    begin
-      model_per = Order::KAMINARI_RECORDS_PER_PAGE
-    rescue NameError
-      model_per = false
+    def get_per
+      begin
+        model_per = Order::KAMINARI_RECORDS_PER_PAGE
+      rescue NameError
+        model_per = false
+      end
+      default_per = model_per || self.class::KAMINARI_RECORDS_PER_PAGE || Kaminari.config.default_per_page
+      page_params[:per] || default_per
     end
-    default_per = model_per || self.class::KAMINARI_RECORDS_PER_PAGE || Kaminari.config.default_per_page
-    page_params[:per] || default_per
-  end
 
-  def get_page
-    page_params[:page] || 1
-  end
+    def get_page
+      page_params[:page] || 1
+    end
 
 
 
     def index
 
-      @orders = apply_scopes(Order).order(id: :desc).by_user(current_user.id)
+      # @orders = apply_scopes(Order).by_user(current_user.id).where.not(status: :cancelled).order(id: :desc)
+      @orders = apply_scopes(Order).by_user(current_user.id).order(  status: :asc , id: :desc)
       @orders = Kaminari.paginate_array(@orders).page(get_page).per(get_per)
       respond_to do |format|
         format.html

@@ -3,11 +3,10 @@ Rails.application.routes.draw do
   #
   root :to => 'orders#index'
   get '/signup' => 'users#new'
-
-
   get '/login' => 'sessions#new', as: :login_form
   post '/login' => 'sessions#create', as: :login
   get '/logout' => 'sessions#destroy', as: :logout
+  post '/users' => 'users#create'
 
 
   resources :orders do
@@ -15,9 +14,9 @@ Rails.application.routes.draw do
       post 'reorder'
       post 'cancel'
     end
+
   end
   resources :drinks
   resources :drink_categories
   resources :users
-  post '/users' => 'users#create'
 end

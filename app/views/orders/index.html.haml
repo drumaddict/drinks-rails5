@@ -26,7 +26,8 @@
 
       %tbody
         -@orders.each do |order|
-          %tr.tt{title: order.description.join(','), 'data-placement':'left'}
+          -#unless (order.cancelled? &&  params[:status].nil?)
+          %tr.tt{title: order.description.join(','), 'data-placement':'left', class: cancelled_class(order)}
             %td=order.id
             %td= order.user.name
             %td= order.user.company.name
@@ -37,7 +38,7 @@
             %td= order.updated_at.strftime("%d/%m/%Y, %I:%M %p")
 
             %td=link_to 'Edit', edit_order_path(order), class: 'btn btn-primary btn-sm'
-            -unless order.cancelled?
+            -unless (order.cancelled? || !current_user.manager?)
               %td
                 =button_to "Cancel", { action: "cancel", id: order.id },  class: 'btn btn-warning btn-sm', method: :post, data: { confirm: "Are you sure you want to cancel this order?" }
 

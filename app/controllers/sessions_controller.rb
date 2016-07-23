@@ -13,16 +13,17 @@ class SessionsController < ApplicationController
       # logged in when they navigate around our website.
       session[:user_id] = user.id
 
-      flash.now[:success] = "Welcome #{user.name} !"
+      flash[:success] = "Welcome #{user.name} !"
       redirect_to root_path
     else
-      flash.now[:form_error] = "Wrong credentials."
+      flash[:form_error] = "Wrong credentials."
     # If user's login doesn't work, send them back to the login form.
       redirect_to '/login'
     end
   end
 
   def destroy
+    flash[:success] = "Goodbye #{current_user.name} !"
     session[:user_id] = nil
     redirect_to '/login'
   end
