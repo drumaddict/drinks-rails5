@@ -3,8 +3,9 @@
 ## Overview
  A simple management system for daily company drink orders built with Rails 5 and Postgres. Just for the fun of it.
 
-![screenshot](https://github.com/drumaddict/drinks/blob/master/orders.png)
-![screenshot](https://github.com/drumaddict/drinks/blob/master/form.png)
+![screenshot](https://github.com/drumaddict/drinks-rails5/blob/master/orders.png)
+![screenshot](https://github.com/drumaddict/drinks-rails5/blob/master/form.png)
+
 
 ## Features
 ### Authentication
