@@ -11,7 +11,7 @@
           %th
           %th
       %tbody
-        -@drinks.each do |drink|
+        -@paginated_drinks.each do |drink|
           %tr
             %td
             %td= drink.name
@@ -19,4 +19,4 @@
             %td=link_to 'Edit', edit_drink_path(drink), class: 'btn btn-primary btn-sm'
             %td
               =button_to "Delete", { action: "destroy", id: drink.id },  class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: "Are you sure?" }
-  = paginate @drinks
+  = paginate @paginated_drinks

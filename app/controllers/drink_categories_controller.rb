@@ -9,14 +9,11 @@ class DrinkCategoriesController < ApplicationController
     redirect_to root_path
   end
 
-
-
   def index
     @drink_categories = DrinkCategory.all
-
     @drink_categories = Kaminari.paginate_array(@drink_categories).page(get_page).per(get_per)
     respond_to do |format|
-      format.html # index.html.erb
+      format.html # index.html.haml
       format.json  { render json: @drink_categories }
     end
   end

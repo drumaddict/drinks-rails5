@@ -11,13 +11,12 @@ class DrinksController < ApplicationController
 
   def index
     @drinks =  params[:cat_id].present? ? Drink.where(drink_category_id: params[:cat_id].to_i) : Drink.all
-    @drinks = Kaminari.paginate_array(@drinks).page(get_page).per(get_per)
+    @paginated_drinks = Kaminari.paginate_array(@drinks).page(get_page).per(get_per)
     respond_to do |format|
       format.html # index.html.erb
       format.json  { render json: @drinks }
     end
   end
-
 
 
   def new
@@ -35,7 +34,6 @@ class DrinksController < ApplicationController
         flash[:success] = 'Drink was successfully created.'
         format.html { redirect_to(drinks_path) }
       else
-
         flash.now[:form_error] = 'Please correct the errors'
         format.html { render :action => "new" }
       end
@@ -68,7 +66,6 @@ class DrinksController < ApplicationController
 
   def update
     @drink = Drink.find(params[:id])
-
     respond_to do |format|
       if @drink.update(permitted_resource_params)
         flash[:success] = 'Drink was successfully updated.'

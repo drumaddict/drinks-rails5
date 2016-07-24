@@ -1,14 +1,17 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_filter :set_up
+
+  def set_up
+    @companies= Company.all
+  end
+
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
   helper_method :current_user
 
   def check_authentication
-    # binding.pry
-    # return true if request.method == 'GET'
     redirect_to '/login' unless current_user
   end
 
@@ -18,7 +21,7 @@ class ApplicationController < ActionController::Base
     rescue NameError
       model_per = false
     end
-    default_per = model_per || self.class::KAMINARI_RECORDS_PER_PAGE || Kaminari.config.default_per_page
+    default_per = model_per || self.resource_class::KAMINARI_RECORDS_PER_PAGE || Kaminari.config.default_per_page
     page_params[:per] || default_per
   end
 
@@ -35,10 +38,6 @@ class ApplicationController < ActionController::Base
   # @return [Class]
   def resource_class
     @resource_class ||= resource_name.classify.constantize
-    # {}"#{controller_name.classify}".constantize
-  end
-  def set_up
-    @companies= Company.all
   end
 
   # Only allow a trusted parameter "white list" through.

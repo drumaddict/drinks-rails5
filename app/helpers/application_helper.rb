@@ -7,4 +7,5 @@ module ApplicationHelper
   def cancelled_class(order)
     order.cancelled? ? 'cancelled' : ''
   end
+
 end

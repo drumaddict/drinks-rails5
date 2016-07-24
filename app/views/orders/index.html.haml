@@ -1,6 +1,5 @@
 .main
   %h1.page-header Orders
-  -# - binding.pry
   -if params[:by_company].present?
     %h4=@companies.find{|c|c.id == params[:by_company].to_i}.name
   -if params[:favorite].present?
@@ -40,7 +39,6 @@
             %td= order.reoccuring
             %td= order.created_at.strftime("%d/%m/%Y, %I:%M %p")
             %td= order.updated_at.strftime("%d/%m/%Y, %I:%M %p")
-
             %td=link_to 'Edit', edit_order_path(order), class: 'btn btn-primary btn-sm'
             -unless (order.cancelled? || !current_user.manager?)
               %td
@@ -52,4 +50,5 @@
               %td
                 =button_to "Re-Order", { action: "reorder", id: order.id },  class: 'btn btn-info btn-sm', method: :post, data: { confirm: "Are you sure you want to place this order again?" }
   =paginate @orders
+
 

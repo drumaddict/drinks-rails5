@@ -1,9 +1,5 @@
 class Order < ApplicationRecord
   KAMINARI_RECORDS_PER_PAGE = 10
-  # Set default ApplicationPolicy for all models
-  # def self.policy_class
-  #   'ApplicationPolicy'
-  # end
 
   has_many :line_items, dependent: :destroy
   belongs_to :user
@@ -14,12 +10,8 @@ class Order < ApplicationRecord
   scope :favorite, -> { where(:favorite => true) }
   scope  :reoccuring, -> { where(:reoccuring => true) }
   scope :by_company, -> company_id { joins(:user).where("users.company_id = ? ", company_id) }
-  # scope :by_user, -> user_id { where(user_id: user_id) }
-  # scope :by_user, -> user_id { where(user_id: user_id) }
-
 
   accepts_nested_attributes_for :line_items, :allow_destroy => true
-  # accepts_nested_attributes_for :line_items, :reject_if => :all_blank, :allow_destroy => true
   validates :line_items, presence: :true
   def description
     return []  if  self.new_record? || !self.valid?
@@ -34,7 +26,7 @@ class Order < ApplicationRecord
 
   def duplicate
     order_dup = self.dup
-    order_dup.favorite =false
+    order_dup.favorite = false
     self.line_items.each do |li|
       order_dup.line_items << li.dup
     end

@@ -4,7 +4,6 @@ PERMITTED_PARAMETERS = [:order_id, :drink_id,  :sugar, :milk, :quantity ].freeze
 
   def index
     @line_items = LineItem.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json  { render json: @line_items }
@@ -49,7 +48,7 @@ PERMITTED_PARAMETERS = [:order_id, :drink_id,  :sugar, :milk, :quantity ].freeze
 
     respond_to do |format|
       format.html { redirect_to(root_path) }
-      format.xml  { head :ok }
+      # format.xml  { head :ok }
     end
   end
 

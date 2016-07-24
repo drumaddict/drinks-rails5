@@ -1,7 +1,6 @@
 = simple_form_for @drink_category,  html: { class: 'form-signin' } do |f|
   - label = @drink_category.new_record? ? 'New Drink Category' : 'Edit Drink Category'
   - btn_label = @drink_category.new_record? ? 'Create' : 'Update'
-
   %h1=label
   %h2.form-signin-heading
   = f.error_notification

@@ -1,7 +1,6 @@
 class DashboardController < ApplicationController
-before_filter :check_authentication
-def index
+  before_filter :check_authentication
+  def index
 
-
-end
+  end
 end

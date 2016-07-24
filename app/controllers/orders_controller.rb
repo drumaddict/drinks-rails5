@@ -9,7 +9,6 @@ class OrdersController < ApplicationController
   has_scope :status
 
   def authorize
-    # binding.pry
     order =  Order.find(params[:id].to_i)
     if order.user_id == current_user.id
      return true
@@ -26,21 +25,12 @@ class OrdersController < ApplicationController
       :milk, :quantity], days: [])
     end
 
-    def page_params
-      params.permit(:page, :per, :format, :id)
-    end
-
+    #hash that is used by javascript to enable/disable milks and sugar options based on drink category
     def milk_sugar_hash
       @id_to_sugar_milk=  DrinkCategory.all.inject({}){|memo,dc| memo[dc.id] = { has_sugar: dc.has_sugar, has_milk: dc.has_milk };memo}.to_json
     end
 
-
-
-
-
     def index
-
-      # @orders = apply_scopes(Order).by_user(current_user.id).where.not(status: :cancelled).order(id: :desc)
       @orders = apply_scopes(Order).by_user(current_user.id).order(  status: :asc , id: :desc)
       @orders = Kaminari.paginate_array(@orders).page(get_page).per(get_per)
       respond_to do |format|
@@ -61,8 +51,7 @@ class OrdersController < ApplicationController
     def create
       @order = Order.new(order_params)
       respond_to do |format|
-        # binding.pry
-        @order.line_items.each {|li| li.order=@order}
+        @order.line_items.each {|li| li.order = @order}
         if @order.save
           flash[:success] = 'Order was successfully placed.'
           format.html { redirect_to(root_path) }
@@ -141,7 +130,7 @@ class OrdersController < ApplicationController
 
 
     def cancel
-      @order = Order.find(params[:id])
+      @order = Order.find(params[:id].to_i)
       @order.status = 'cancelled'
 
       respond_to do |format|
