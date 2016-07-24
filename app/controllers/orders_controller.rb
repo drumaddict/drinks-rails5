@@ -35,19 +35,6 @@ class OrdersController < ApplicationController
     end
 
 
-    def get_per
-      begin
-        model_per = Order::KAMINARI_RECORDS_PER_PAGE
-      rescue NameError
-        model_per = false
-      end
-      default_per = model_per || self.class::KAMINARI_RECORDS_PER_PAGE || Kaminari.config.default_per_page
-      page_params[:per] || default_per
-    end
-
-    def get_page
-      page_params[:page] || 1
-    end
 
 
 

@@ -1,10 +1,17 @@
 class DrinksController < ApplicationController
   before_filter :check_authentication
-  PERMITTED_PARAMETERS = [:name, :drink_category_id].freeze
-  def index
-    # binding.pry
-    @drinks =  params[:cat_id].present? ? Drink.where(drink_category_id: params[:cat_id].to_i) : Drink.all
+  before_action :authorize, unless: -> { current_user.manager? }
 
+  PERMITTED_PARAMETERS = [:name, :drink_category_id].freeze
+
+  def authorize
+    flash[:form_error] = 'Unauthorized.You cannot edit drinks'
+    redirect_to root_path
+  end
+
+  def index
+    @drinks =  params[:cat_id].present? ? Drink.where(drink_category_id: params[:cat_id].to_i) : Drink.all
+    @drinks = Kaminari.paginate_array(@drinks).page(get_page).per(get_per)
     respond_to do |format|
       format.html # index.html.erb
       format.json  { render json: @drinks }

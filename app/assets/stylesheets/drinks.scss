@@ -1,17 +1,15 @@
 body {
-
   padding-top:1px!important;
   background-color: black;
-
   background-image:image-url('coffee.jpg');
+  opacity : 1.0;
 }
-.main:after {
+.body:after {
   content : "";
   display: block;
   position: absolute;
   top: 0;
   left: 0;
-  // background-image:image-url('coffee.jpg');
   width: 100%;
   height: 100%;
   opacity : 1.2;
@@ -32,6 +30,9 @@ body {
   border-radius: 0.25rem;
 }
 
+.help-block{
+ color:#d9534f;
+}
 .sidebar{
   background-color: #000000;
 
