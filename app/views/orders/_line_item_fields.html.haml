@@ -1,4 +1,4 @@
-.nested-fields.top23
+.nested-fields.top62
   = f.input :order_id,as: :hidden, input_html: { value: @order.id }
 
   = f.input :drink_category_id, collection: DrinkCategory.all.map {|d| [d.name.humanize,d.id ]}, |

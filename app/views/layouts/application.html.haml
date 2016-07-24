@@ -8,7 +8,7 @@
     -# %script{:src => "//cdnjs.cloudflare.com/ajax/libs/tether/1.3.1/js/tether.min.js"}
   %body
     = render partial: "flash", locals: { flash: flash }
-    .container-fluid.top23
+    .container-fluid.top62.wrapper
       -if current_user
         %nav.navbar.navbar-dark.navbar-fixed-top.bg-inverse
           %button.navbar-toggler.hidden-sm-up{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "collapse", :type => "button"}
@@ -27,8 +27,8 @@
                   ="#{current_user.name} (#{current_user.company.name})"
 
       .row
-        .col-sm-3.col-md-2.sidebar
-          -if current_user
+        -if current_user
+          .col-sm-3.col-md-2.sidebar
             %ul.nav.nav-sidebar
               %li{class: link_class(orders_path)}
                 =link_to orders_path do

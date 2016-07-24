@@ -39,14 +39,14 @@
       = f.collection_check_boxes :days,Date::DAYNAMES.map.with_index { |d, i| [d, i] }, :last, :first, checked: @order.days
     = f.input  :hour,collection: (9..17).to_a.map{|h| [h.to_s+':00',h]}, prompt: 'Choose hour',label: false,  input_html: { class: 'hour'}
 
-  .top23
+  .top62
     %h3 Drinks
     #drinks
       = f.simple_fields_for :line_items do |line_items_form|
         = render 'line_item_fields', :f => line_items_form
-      .links.input-group.input-group-sm.top23
+      .links.input-group.input-group-sm.top62
         = link_to_add_association 'add drink', f, :line_items, class: 'btn btn-primary btn-sm'
-  .row.top23
+  .row.top62
     = f.button :submit, btn_label,  class: 'btn btn-lg btn-primary btn-block'
 
 

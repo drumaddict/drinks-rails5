@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
       flash[:success] = "Welcome #{user.name} !"
       redirect_to root_path
     else
-      flash[:form_error] = "Wrong credentials."
+      flash[:form_error] = "Invalid name or password."
     # If user's login doesn't work, send them back to the login form.
       redirect_to '/login'
     end
