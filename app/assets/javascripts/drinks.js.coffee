@@ -44,36 +44,54 @@ jQuery ($) ->
   $('.drink-category').each ->
     cat_id =  $(this).val()
     handle_milk_sugar_selects(cat_id,$(this))
-  apply_drink_filer= ->
+
+  fetch_drinks=(cat_id, element) ->
+    console.log('FETCH CALLED', cat_id)
+    url= $('.order-form').attr('data-url')
+    $.ajax(
+      dataType: 'json'
+      cache: false
+      url: url
+      data:
+        cat_id: cat_id
+      beforeSend: (xhr) ->
+        return
+    ).done((data) ->
+      drink_select = element.parent().parent().find('.drink-select')
+      drink_select.html('')
+      $.each data, (i, drink) ->
+        drink_select.append $('<option>').text(drink.name).attr('value', drink.id)
+      return
+    ).fail((data) ->
+      console.log( 'fail' )
+      return
+    ).always (data) ->
+      console.log( 'always' )
+      return
+    return
+
+
+  initialize_drinks= ->
+    $('.drink-category').each ->
+      $this = $(this)
+      cat_id =  $this.val()
+      fetch_drinks(cat_id, $this)
+      return
+
+  initialize_drinks() if  $('.drink-category')
+
+  apply_drink_filter= ->
     $('.drink-category').each ->
       $this = $(this)
       $this.on 'change', (e) ->
-        url= $('.order-form').attr('data-url')
         cat_id =  e.target.value
         handle_milk_sugar_selects(cat_id,$this)
-        $.ajax(
-          dataType: 'json'
-          cache: false
-          url: url
-          data:
-            cat_id: cat_id
-          beforeSend: (xhr) ->
-            return
-        ).done((data) ->
-          drink_select = $this.parent().parent().find('.drink-select')
-          drink_select.html('')
-          $.each data, (i, drink) ->
-            drink_select.append $('<option>').text(drink.name).attr('value', drink.id)
-          return
-        ).fail((data) ->
-          console.log( 'fail' )
-          return
-        ).always (data) ->
-          console.log( 'always' )
-          return
+        fetch_drinks(cat_id, $this)
         return
       return
-  apply_drink_filer()
+
+  apply_drink_filter()
+
   $('#drinks').on 'cocoon:after-insert', (e, insertedItem) ->
-    apply_drink_filer()
+    apply_drink_filter()
   return
