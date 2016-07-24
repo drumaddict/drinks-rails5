@@ -1,6 +1,6 @@
 class DrinksController < ApplicationController
   before_filter :check_authentication
-  before_action :authorize, unless: -> { current_user.manager? }
+  before_action :authorize,  except: [:index], unless: -> { current_user.manager? }
 
   PERMITTED_PARAMETERS = [:name, :drink_category_id].freeze
 
