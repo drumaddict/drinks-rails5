@@ -72,7 +72,6 @@ Clone repo, run `bundle exec install` , `rails db:create`, `rails db:migrate`, `
 * [Bootstrap RubyGem](https://github.com/twbs/bootstrap-rubygem)
 * [Haml for Rails](https://github.com/indirect/haml-rails)
 * [sidekiq](https://github.com/mperham/sidekiq)
-* **[sidekiq-client-cli](https://github.com/didil/sidekiq-client-cli)
 * [whenever](https://github.com/javan/whenever)
 
 ## License
