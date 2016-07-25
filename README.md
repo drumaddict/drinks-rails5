@@ -3,6 +3,7 @@
 ## Overview
  A simple management system for daily company drink orders built with Rails 5 and Postgres. Just for the fun of it.
 
+
 ![screenshot](https://github.com/drumaddict/drinks-rails5/blob/master/orders.png)
 ![screenshot](https://github.com/drumaddict/drinks-rails5/blob/master/form.png)
 
@@ -32,7 +33,7 @@ Implemented with [sidekiq](https://github.com/mperham/sidekiq), [sidekiq-client-
 
 ### Cancelled Orders
 Manager can cancel an order either by editing status or with a handy cancel button in orders list.
-Cancelled orders appear faded out in orders list with.
+Cancelled orders appear faded out in orders list.
 
 ### Manage Drinks and Drink Categories
  Manager can create, update and delete drinks and drink categories.
@@ -70,6 +71,9 @@ Clone repo, run `bundle exec install` , `rails db:create`, `rails db:migrate`, `
 * [Coccoon](https://github.com/nathanvda/cocoon) For adding fields in nested forms with javascript
 * [Bootstrap RubyGem](https://github.com/twbs/bootstrap-rubygem)
 * [Haml for Rails](https://github.com/indirect/haml-rails)
+* [sidekiq](https://github.com/mperham/sidekiq)
+* **[sidekiq-client-cli](https://github.com/didil/sidekiq-client-cli)
+* [whenever](https://github.com/javan/whenever)
 
 ## License
  [MIT License](http://opensource.org/licenses/MIT).
